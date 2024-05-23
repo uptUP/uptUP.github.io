@@ -1,4 +1,4 @@
-name: Deploy HTML to GitHub Pages
+name: Build and Deploy Static Site
 
 on:
   push:
@@ -6,15 +6,21 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Deploy to GitHub Pages
+    - name: Build site
+      run: |
+        # 在这里运行构建静态网站的命令，比如使用 Jekyll、Hugo、Gatsby 等
+        npm install
+        npm run build
+
+    - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: .
+        publish_dir: ./build
